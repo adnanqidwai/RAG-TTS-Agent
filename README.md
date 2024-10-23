@@ -40,7 +40,14 @@ The implementation details are mentioned in the README.md file in the respective
 
 - Run the backend and frontend servers using the details mentioned in the respective README.md files of the backend and frontend folders.
     
+---
+
+
 ## Ideation
+I created an agent which can run using any LLM instead of being limited to Langchain Tool supported models. The agent can perform various actions depending on the query given by the user.
+
+**Note**: Throughout the implementation, we use the Gemini series of models by Google, as they are free. Running a local LLM was not feasible due to the unavailability of compute.
+
 - Part 1: 
     * Using **PyPDF2** for extracting text from PDFs.
     * Using **ChromaDB** to generate and store sentence embeddings in a persistent vector database.
