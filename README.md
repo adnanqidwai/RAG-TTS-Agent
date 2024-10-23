@@ -1,8 +1,8 @@
-# Programming Assignment for Engineering roles at Sarvam.ai : The Harmony Tutor
+# Programming Assignment for Engineering roles at Sarvam : The Harmony Tutor
 ## Problem Statement
 - Part 1: Building a RAG system : Build a RAG system that can generate responses for a given query and context and host it using a FASTAPI server.
 - Part 2: Developing an agent by extending the RAG system : Extend the RAG system to develop an agent that can answer questions selectively based on the context and query. The agent should be able to decide when to call the RAG system and when to answer the question directly.
-- Part 3: Giving a voice to the agent: Develop a voice interface for the agent using Sarvam.ai's TTS system.
+- Part 3: Giving a voice to the agent: Develop a voice interface for the agent using Sarvam's TTS system.
 
 The implementation details are mentioned in the README.md file in the respective folders.
 
@@ -34,8 +34,8 @@ The implementation details are mentioned in the README.md file in the respective
 
 - Export the neccessary environment variables.
     ```bash
-    export GEMINI_KEY=<your_gemini_key>
-    export SARVAM_AI_KEY=<your_sarvam_ai_key>
+    export GEMINI_KEY=<your_gemini_api_key>
+    export SARVAM_AI_KEY=<your_sarvam_api_key>
     ```
 
 - Run the backend and frontend servers using the details mentioned in the respective README.md files of the backend and frontend folders.
