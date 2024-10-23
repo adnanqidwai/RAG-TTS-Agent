@@ -35,7 +35,7 @@ The implementation details are mentioned in the README.md file in the respective
 - Export the neccessary environment variables.
     ```bash
     export GEMINI_KEY=<your_gemini_api_key>
-    export SARVAM_AI_KEY=<your_sarvam_api_key>
+    export SARVAM_KEY=<your_sarvam_api_key>
     ```
 
 - Run the backend and frontend servers using the details mentioned in the respective README.md files of the backend and frontend folders.
