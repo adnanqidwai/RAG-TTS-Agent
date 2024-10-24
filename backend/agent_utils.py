@@ -7,7 +7,7 @@ DECISION_PROMPT = """Determine the appropriate action for the following user que
 
 - 'smalltalk' if the question is a greeting or compliment only. The question is not related to sound or any calculations.
 - 'vectordb' if the query is not a greeting and is remotely related to the topic of sound, including questions about the speed of sound in different media or at different temperatures and pressures. If the query involves calculations but is missing necessary information, also use 'vectordb'. Do not perform any calculations.
-- 'sound_calculator' if the query is related to calculating the speed of sound, wavelength, or frequency, given the other two parameters. The calculator expects frequency in Hz, speed in m/s, and wavelength in m. Provide the known values and indicate which parameter is unknown.
+- 'sound_calculator' if the query is related to calculating the speed of sound, wavelength, or frequency, given the other two parameters or finding the time period given the frequency. The calculator expects frequency in Hz, speed in m/s, and wavelength in m. Provide the known values and indicate which parameter is unknown.
 - 'unknown' if the query is not related to any of the above, return 'unknown'.
 
 You need to think step by step to determine which action to take. 
@@ -43,6 +43,9 @@ Response: The query asks about the speed of sound in a specific medium (water). 
 Query: What is the frequency of a sound wave with a wavelength of 2e-2 m and a speed of sound of 343 m/s?
 Response: The query contains specific values for wavelength and speed of sound and is related to the topic of sound. Here, the unknown parameter is frequency. The known parameters are wavelength with a value of 0.02 m (2e-2 m) and speed of sound with a value of 343 m/s.  Final action: sound_calculator, {"wavelength": "0.02", "speed": "343", "unknown": "frequency"}.
 
+Query: Time period of a wave with a wavelength of 0.0002 m and a speed of of 495 m/s?
+Response: The query contains specific values for wavelength and speed of sound and is related to the topic of sound. Here, the unknown parameter is frequency. The known parameters are wavelength with a value of 0.02 m (2e-2 m) and speed of sound with a value of 343 m/s.  Final action: sound_calculator, {"wavelength": "0.02", "speed": "343", "unknown": "frequency"}.
+
 Query: INSERT_QUERY_HERE
 Response:"""
 
@@ -61,25 +64,26 @@ def sound_calculator(query: str) -> str:
     
     structured_query = json.loads(query)
     unknown = structured_query['unknown']
+
     try:
-        if unknown == "wavelength":
+        if unknown == "wavelength" and "speed" in structured_query and "frequency" in structured_query:
             speed = float(structured_query['speed'])
             frequency = float(structured_query['frequency'])
             wavelength = speed / frequency
             return f"The wavelength is {wavelength} meters."
         
-        elif unknown == "frequency":
+        elif unknown == "frequency" and "speed" in structured_query and "wavelength" in structured_query:
             speed = float(structured_query['speed'])
             wavelength = float(structured_query['wavelength'])
             frequency = speed / wavelength
             return f"The frequency is {frequency} Hz."
         
-        elif unknown == "time_period":
+        elif unknown == "time_period" and "frequency" in structured_query:
             frequency = float(structured_query['frequency'])
             time_period = 1 / frequency
             return f"The time period is {time_period} seconds."
         
-        elif unknown == "speed":
+        elif unknown == "speed" and "wavelength" in structured_query and "frequency" in structured_query:
             wavelength = float(structured_query['wavelength'])
             frequency = float(structured_query['frequency'])
             speed = wavelength * frequency
@@ -96,14 +100,6 @@ def sound_calculator(query: str) -> str:
     
     except Exception as e:
         return f"An error occurred: {str(e)}"
-
-# def generate_model_response(model, query: str) -> str:
-    
-#     try:
-#         response = model.generate_content(DECISION_PROMPT.replace("INSERT_QUERY_HERE", query)).text
-#         return response
-#     except Exception as e:
-#         return f"An error occurred: {str(e)}. The request ({query}) could not be processed."
 
 def generate_model_response(chat_session, query: str) -> str:
     

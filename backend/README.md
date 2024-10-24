@@ -18,7 +18,7 @@ This will start the server on `http://localhost:8000`. You can change the port b
 ## Implementation
 
 ### Storage
-We first check if the pdf collection is already present in the database. If not, we add the text using PyPDF2 and ChromaDB, embedding through the default `all-MiniLM-L6-v2` model which generates 384 size embeddings for each sentence. We then store the embeddings in the database.
+We first store the PDF(s) in a directory called _pdfs_. Then, we check if the pdf collection is already present in the database. If not, we add the text using PyPDF2 and ChromaDB, embedding through the default `all-MiniLM-L6-v2` model which generates 384 size embeddings for each sentence. We then store the embeddings in the database.
 
 ### Retrieval
 With a given query, we first embed the query using the same model and then find the top 10 results from the database using ChromaDB's _query()_ method.

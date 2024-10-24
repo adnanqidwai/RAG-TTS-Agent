@@ -5,6 +5,11 @@
 - Part 3: Giving a voice to the agent: Develop a voice interface for the agent using Sarvam's TTS system.
 
 The implementation details are mentioned in the README.md file in the respective folders.
+**Note**: 
+
+- This implementation can be done using any LLM model, but for this assignment, we use the Gemini series of models by Google, using their free API.
+- Sentence embeddings are generated using the ChromaDB library using the default `all-MiniLM-L6-v2` model, which is very small.
+- Hence, this implementation works smoothly on CPUs and does not require a GPU.
 
 ## Directory Structure
 ```
@@ -39,7 +44,7 @@ The implementation details are mentioned in the README.md file in the respective
     ```
 
 - Run the backend and frontend servers using the details mentioned in the respective README.md files of the backend and frontend folders.
-    
+
 ---
 
 
