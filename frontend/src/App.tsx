@@ -77,8 +77,8 @@ export default function ChatBot() {
     setQuery('');
 
     try {
-      const result = await axios.get(`http://127.0.0.1:8000/${endpoint}`, {
-        params: { query: currentQuery },
+      const result = await axios.post(`http://127.0.0.1:8000/${endpoint}`, {
+        query: currentQuery,
       });
       const text = result.data.response;
 
@@ -95,7 +95,7 @@ export default function ChatBot() {
 
   const fetchAudio = async (text: string) => {
     try {
-      const ttsResult = await axios.post('http://localhost:8000/tts', { text });
+      const ttsResult = await axios.post('http://localhost:8000/tts', { query: text });
       
       messageToAudio[text.toLowerCase()] = ttsResult.data.response; // cache 
 

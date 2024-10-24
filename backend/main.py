@@ -10,6 +10,7 @@ from agent_utils import determine_action_from_query, decision_generation_config
 from TTS import text_to_speech
 import httpx
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 genai.configure(api_key=os.environ["GEMINI_KEY"])
 
 app = FastAPI()
@@ -36,9 +37,13 @@ except Exception as e:
     create_database("pdfs", "./chromadb", "./pdfs")
     collection = client.get_collection("pdfs")
 
-@app.get("/retrieve") # endpoint for retriever
-async def retrieve(query: str):
+class Query(BaseModel):
+    query: str
+
+@app.post("/retrieve") # endpoint for retriever
+async def retrieve(query_data: Query = None):
     try: 
+        query = query_data.query
         results = collection.query(query_texts=[query], n_results= 5)
         all_text = " ".join([line for result in results['documents'] for line in result])
         return JSONResponse(content={"response": all_text})
@@ -47,11 +52,12 @@ async def retrieve(query: str):
         raise HTTPException(status_code=500, detail=f"Error: {e}")
 
 
-@app.get("/rag")
-async def rag_endpoint(query: str):
+@app.post("/rag")
+async def rag_endpoint(query_data: Query = None):
     try:
+        query = query_data.query
         async with httpx.AsyncClient() as client:
-            response = await client.get(f"{proxy}/retrieve", params={"query": query})
+            response = await client.post(f"{proxy}/retrieve", json={"query": query})
         
         context_text = response.json()["response"]
         generated_content = generate_model_response(rag_model, query, context_text)
@@ -60,9 +66,10 @@ async def rag_endpoint(query: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {e}")
 
-@app.get("/agent")
-async def agent_endpoint(query: str):
+@app.post("/agent")
+async def agent_endpoint(query_data: Query = None):
     try:
+        query = query_data.query
         response = await determine_action_from_query(decision_chat, query) 
         return JSONResponse(content={"response": response})
 
@@ -70,9 +77,10 @@ async def agent_endpoint(query: str):
         raise HTTPException(status_code=500, detail=f"Error: {e}")
 
 @app.post("/tts")
-async def tts_endpoint(text: str = Body(..., embed=True)):
+async def tts_endpoint(query_data: Query = None):
     try:
-        resp = await text_to_speech(text)
+        query = query_data.query
+        resp = await text_to_speech(query)
         audio = resp["audios"][0]
         return JSONResponse(content={"response": audio})
     except Exception as e:

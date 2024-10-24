@@ -4,7 +4,7 @@ import os
 
 SARVAM_KEY = os.environ["SARVAM_KEY"]
 
-async def text_to_speech(text: str, target_language_code: str = "en-IN", speaker: str = "arvind", enable_preprocessing : str = True, model : str = "bulbul:v1") -> dict:
+async def text_to_speech(text: str, target_language_code: str = "en-IN", speaker: str = "meera", enable_preprocessing : str = True, model : str = "bulbul:v1") -> dict:
     url = "https://api.sarvam.ai/text-to-speech"
     headers = {
         "api-subscription-key": SARVAM_KEY,

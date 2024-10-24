@@ -147,7 +147,7 @@ async def determine_action_from_query(chat_session, query):
 
     else: 
         async with httpx.AsyncClient() as client:
-            rag_response = await client.get(f"{proxy}/rag", params={"query": query})
+            rag_response = await client.post(f"{proxy}/rag", json={"query": query})
         response = rag_response.json()["response"] 
         add_history(chat_session, response)
         response =  "Using the context provided to me, I found the following information: " + response
