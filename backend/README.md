@@ -3,7 +3,7 @@
 The backend is a FASTAPI server that serves the Harmony Tutor.
 It serves the following endpoints:
 
-- `/retrieve?query=...` - Retrieves top 10 results for the query, which match in the vector database. 
+- `/retrieve?query=...` - Retrieves a concatenated string of top 5 results for the query, which match in the vector database. 
 - `/rag?query=...` - Performs Retrieval Augmented Generation on the query and returns the generated text from the model.
 - `/agent?query=...` - Takes decisions based on the query and returns the response from the agent.
 - `/tts` - Takes text as input and returns the base64 audio string of the text, using the API provided by Sarvam.
@@ -22,10 +22,10 @@ We first store the PDF(s) in a directory called _pdfs_. Then, we check if the pd
 
 ### Retrieval
 With a given query, we first embed the query using the same model and then find the top 10 results from the database using ChromaDB's _query()_ method.
-Using the list of top 10 results, we then return a concatenated string of the top 10 results.
+Using the list of top 5 results, we then return a concatenated string of the top 5 results.
 
 ### RAG
-With a given query, we retrieve the top 10 results from the database using the same method as above. We then pass the query as the question and the concatenated result list as context to the RAG model, which generates the response.
+With a given query, we retrieve the top 5 results from the database using the same method as above. We then pass the query as the question and the concatenated result list as context to the RAG model, which generates the response.
 
 ### Agent
 The agent utilises a decision model with history to decide the response based on the query. 
