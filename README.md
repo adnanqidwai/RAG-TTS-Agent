@@ -1,8 +1,8 @@
-# Programming Assignment for Engineering roles at Sarvam : The Harmony Tutor
-## Problem Statement
-- Part 1: Building a RAG system : Build a RAG system that can generate responses for a given query and context and host it using a FASTAPI server.
-- Part 2: Developing an agent by extending the RAG system : Extend the RAG system to develop an agent that can answer questions selectively based on the context and query. The agent should be able to decide when to call the RAG system and when to answer the question directly.
-- Part 3: Giving a voice to the agent: Develop a voice interface for the agent using Sarvam's TTS system.
+# The Harmony Tutor
+## Architecture 
+- 1: Building a RAG system : Build a RAG system that can generate responses for a given query and context and host it using a FASTAPI server.
+- 2: Extending the RAG system to develop an agent that can answer questions selectively based on the context and query. The agent should be able to decide when to call the RAG system and when to answer the question directly.
+- 3: Giving a voice to the agent.
 
 The implementation details are mentioned in the README.md file in the respective folders.
 **Note**: 
@@ -32,9 +32,9 @@ The implementation details are mentioned in the README.md file in the respective
 ## Instructions to run the code
 - Create a new environment using python. Install the required packages using the requirements.txt file and activate the environment.
     ```bash
-    python3 -m venv sarvam_assignment
+    python3 -m venv myenv
     pip install -r requirements.txt
-    source sarvam_assignment/bin/activate
+    source myenv/bin/activate
     ```
 
 - Export the neccessary environment variables.
